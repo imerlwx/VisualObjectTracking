@@ -1,0 +1,13 @@
+__pycache__
+
+IMAGES/
+*.db
+
+venv/
+env/
+
+detection.mp4
+*.pt
+
+# macOS system files
+*.DS_Store
