@@ -6,8 +6,9 @@ IMAGES/
 venv/
 env/
 
-detection.mp4
+*.mp4
 *.pt
+*.onnx
 
 # macOS system files
 *.DS_Store

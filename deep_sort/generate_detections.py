@@ -87,7 +87,7 @@ def extract_image_patch(image, bbox, patch_shape):
 
 
 class ImageEncoder(object):
-    """
+    """Extract features from image batches. Output (len(boxes), len(features)).
     Parameters
     ----------
     checkpoint_filename : str

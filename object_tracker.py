@@ -76,7 +76,7 @@ def Object_tracking(model, video_path, output_path, show=False, Track_only = [])
         boxes, scores, names = [], [], []
         for bbox in results[0].boxes.data:
             # bbox = result.boxes.data
-            print(bbox)
+            # print(bbox)
             if len(Track_only) !=0 and CLASS_DICT[int(bbox[5])] in Track_only or len(Track_only) == 0:
                 boxes.append([int(bbox[0]), int(bbox[1]), int(bbox[2])-int(bbox[0]), int(bbox[3])-int(bbox[1])])
                 scores.append(bbox[4])
@@ -132,6 +132,6 @@ def Object_tracking(model, video_path, output_path, show=False, Track_only = [])
     cv2.destroyAllWindows()
 
 
-video_path   = "./IMAGES/traffic-27260.mp4"
-model = YOLO("yolov8n.pt")
+video_path   = "cardemo2.mp4"
+model = YOLO("yolov8s.pt")
 Object_tracking(model, video_path, "detection.mp4", show=True, Track_only = ["car"])
