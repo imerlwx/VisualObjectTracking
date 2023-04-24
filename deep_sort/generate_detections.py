@@ -17,7 +17,7 @@ def _run_in_batches(f, data_dict, out, batch_size):
     Parameters
     ----------
     f : function
-        
+        Output tensors and metadata obtained when executing a session.
     data_dict : dict
         The dictionary of data that 
     out : list

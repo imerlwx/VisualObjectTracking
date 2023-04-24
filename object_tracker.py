@@ -5,7 +5,7 @@ import numpy as np
 import tensorflow as tf
 import time
 
-from utils import draw_bbox
+from utils import draw_bbox, read_class_names
 from deep_sort import nn_matching
 from deep_sort.detection import Detection
 from deep_sort.tracker import Tracker
@@ -38,7 +38,7 @@ def Object_tracking(model, video_path, output_path, show=False, Track_only = [])
     # initialize deep sort object
     # mars-small128.pb is a CNN model that without the last fc layer
     model_filename = 'model_data/mars-small128.pb'
-    encoder = gdet.create_box_encoder(model_filename, batch_size=1)
+    encoder = gdet.create_box_encoder(model_filename, batch_size=8)
     metric = nn_matching.NearestNeighborDistanceMetric("cosine", max_cosine_distance, nn_budget)
     tracker = Tracker(metric)
 
@@ -55,6 +55,9 @@ def Object_tracking(model, video_path, output_path, show=False, Track_only = [])
     fps = int(vid.get(cv2.CAP_PROP_FPS))
     codec = cv2.VideoWriter_fourcc(*'XVID')
     out = cv2.VideoWriter(output_path, codec, fps, (width, height)) # output_path must be .mp4
+    CLASS_DICT = read_class_names("model_data/coco/coco.names")
+    key_list = list(CLASS_DICT.keys())
+    val_list = list(CLASS_DICT.values())
 
     while True:
         _, frame = vid.read()
@@ -66,10 +69,7 @@ def Object_tracking(model, video_path, output_path, show=False, Track_only = [])
             break
 
         t1 = time.time()
-        results = model(frame)
-        CLASS_DICT = results[0].names
-        key_list = list(CLASS_DICT.keys()) 
-        val_list = list(CLASS_DICT.values())
+        results = model.predict(frame, conf=0.4)
         t2 = time.time()
 
         # extract bboxes to boxes (x, y, width, height), scores and names
@@ -132,6 +132,16 @@ def Object_tracking(model, video_path, output_path, show=False, Track_only = [])
     cv2.destroyAllWindows()
 
 
+names = []
+with open("model_data/coco/coco.names", 'r') as data:
+    for name in data.readlines():
+        names.append(name.split('\n')[0])
+
+print(names)
+
+# Parameters to fine tune: Tracker.py: max_iou_distance, max_age,
+# object_tracker.py: max_cosine_distance(line 35), conf(line 72)
+# Demos: "./IMAGE/cardemo2.mp4": "car", "./IMAGE/test.mp4": "person"
 video_path   = "cardemo2.mp4"
-model = YOLO("yolov8s.pt")
+model = YOLO("yolov8m.pt")
 Object_tracking(model, video_path, "detection.mp4", show=True, Track_only = ["car"])

@@ -17,6 +17,8 @@ class Tracker:
         A distance metric for measurement-to-track association.
     max_age : int
         Maximum number of missed misses before a track is deleted.
+    max_iou_distance : float
+        Cost larger than this value will be set to a very larger value.
     n_init : int
         Number of consecutive detections before the track is confirmed. The
         track state is set to `Deleted` if a miss occurs within the first
@@ -37,7 +39,7 @@ class Tracker:
 
     """
 
-    def __init__(self, metric, max_iou_distance=0.7, max_age=30, n_init=3):
+    def __init__(self, metric, max_iou_distance=0.3, max_age=40, n_init=3):
         self.metric = metric
         self.max_iou_distance = max_iou_distance
         self.max_age = max_age

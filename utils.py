@@ -6,13 +6,7 @@ import cv2
 
 def draw_bbox(image, bboxes, CLASS_DICT, show_label=True, show_confidence = 
               True, Text_colors=(255,255,0), rectangle_colors='', tracking=False):
-    """Draw boxes on the given image based on the boxes list.
-
-    Parameters
-    ----------
-    
-
-    """
+    """Draw boxes on the given image based on the boxes list."""
     num_classes = len(CLASS_DICT)
     image_h, image_w, _ = image.shape
     hsv_tuples = [(1.0 * x / num_classes, 1., 1.) for x in range(num_classes)]
@@ -60,3 +54,12 @@ def draw_bbox(image, bboxes, CLASS_DICT, show_label=True, show_confidence =
                         fontScale, Text_colors, bbox_thick, lineType=cv2.LINE_AA)
 
     return image
+
+
+def read_class_names(class_file_name):
+    """loads class name from a file."""
+    names = {}
+    with open(class_file_name, 'r') as data:
+        for ID, name in enumerate(data):
+            names[ID] = name.strip('\n')
+    return names

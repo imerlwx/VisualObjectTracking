@@ -54,7 +54,7 @@ def min_cost_matching(
 
     cost_matrix = distance_metric(
         tracks, detections, track_indices, detection_indices)
-    cost_matrix[cost_matrix > max_distance] = max_distance + 1e-5
+    cost_matrix[cost_matrix > max_distance] = max_distance + INFTY_COST
     indices = linear_sum_assignment(cost_matrix)
     indices = np.asarray(indices)
     indices = np.transpose(indices)
