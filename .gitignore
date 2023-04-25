@@ -8,6 +8,8 @@ env/
 *.mp4
 *.pt
 *.onnx
+*.webm
+IMAGES/
 
 # macOS system files
 *.DS_Store

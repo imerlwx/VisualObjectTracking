@@ -137,11 +137,9 @@ with open("model_data/coco/coco.names", 'r') as data:
     for name in data.readlines():
         names.append(name.split('\n')[0])
 
-print(names)
-
 # Parameters to fine tune: Tracker.py: max_iou_distance, max_age,
 # object_tracker.py: max_cosine_distance(line 35), conf(line 72)
-# Demos: "./IMAGE/cardemo2.mp4": "car", "./IMAGE/test.mp4": "person"
-video_path   = "cardemo2.mp4"
+# Demos: "./IMAGES/cardemo2.mp4": "car", "./IMAGES/test.mp4": "person"
+video_path   = "./IMAGES/MOT16-11-raw.webm"
 model = YOLO("yolov8m.pt")
-Object_tracking(model, video_path, "detection.mp4", show=True, Track_only = ["car"])
+Object_tracking(model, video_path, "detection.mp4", show=True, Track_only = ["car", "person"])
